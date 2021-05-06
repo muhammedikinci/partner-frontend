@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login } from '../../redux/customer/action';
+import { login } from '../../../redux/customer/action';
 import { Form, Input, Button, Row, Col, Alert } from 'antd';
 import { Redirect } from 'react-router';
+import { ADMIN_ROLE } from '../../../helper/role';
 
 const Login = ({ customer, login }) => {
   const onFinish = (values) => {
@@ -13,7 +14,7 @@ const Login = ({ customer, login }) => {
     console.log('Failed:', errorInfo);
   };
 
-  return customer.token ? <Redirect to="/siparisler" /> : 
+  return customer.token ? <Redirect to={customer.role === ADMIN_ROLE ? "/admin/siparisler" : "/siparisler"} /> : 
   (
     <Row type="flex"
     style={{ minHeight:'60vh' }}

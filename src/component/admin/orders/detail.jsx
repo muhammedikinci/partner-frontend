@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getOrderById } from '../../redux/order/action';
+import { getOrderById } from '../../../redux/order/action';
 import { Table, Row, Col, Card, List, Breadcrumb } from 'antd';
 
 const { Column } = Table;

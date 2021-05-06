@@ -5,10 +5,14 @@ import "./App.css";
 import { Provider } from 'react-redux';
 import store from './store.js';
 
-import ProductsIndex from "./component/products/index";
-import OrdersIndex from "./component/orders/index";
-import OrderDetail from "./component/orders/detail";
-import Login from "./component/customer/login";
+import ProductsIndex from "./component/admin/products/index";
+import AdminOrdersIndex from "./component/admin/orders/index";
+import AdminOrderDetail from "./component/admin/orders/detail";
+import PartnerOrdersIndex from "./component/partner/orders/index";
+import PartnerOrderDetail from "./component/partner/orders/detail";
+import Login from "./component/admin/customer/login";
+import AdminPartnersIndex from "./component/admin/partner/index";
+import AdminNewPartner from "./component/admin/partner/new";
 import AuthRoute from "./component/partials/AuthRoute";
 import Nav from "./component/partials/Nav";
 
@@ -24,9 +28,13 @@ function App() {
             <Content style={{ padding: '0 50px' }}>
               <Content style={{ padding: '10px 0px', minHeight: 280 }}>
                 <Switch>
-                  <AuthRoute exact path="/siparisler" component={OrdersIndex} />
-                  <AuthRoute exact path="/siparisler/:id" component={OrderDetail} />
-                  <AuthRoute exact path="/urunler" component={ProductsIndex} />
+                  <AuthRoute exact path="/admin/siparisler" component={AdminOrdersIndex} />
+                  <AuthRoute exact path="/admin/siparisler/:id" component={AdminOrderDetail} />
+                  <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
+                  <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
+                  <AuthRoute exact path="/admin/urunler" component={ProductsIndex} />
+                  <AuthRoute exact path="/admin/tedarikciler" component={AdminPartnersIndex} />
+                  <AuthRoute exact path="/admin/yeni-tedarikci" component={AdminNewPartner} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>
               </Content>

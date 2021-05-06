@@ -79,3 +79,20 @@ export const getOrderById = (id) => {
         });
     }
 }
+
+export const getMyOrders = () => {
+    return dispatch => {
+        dispatch(getAllOrderRequest());
+        get('/api/order/get-all-my-orders').then(res => {
+            const orders = res.data;
+
+            for (let o of orders) {
+                o.key = o.id
+            }
+
+            dispatch(getAllOrderSuccess(orders));
+        }).catch(err => {
+            dispatch(getAllOrderFailure(err));
+        });
+    }
+}
