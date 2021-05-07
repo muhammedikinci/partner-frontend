@@ -6,14 +6,27 @@ import {
     SET_NEW_PARTNER_SUCCESS, 
     SET_NEW_PARTNER_FAILURE,
     GET_ALL_PARTNERS_REQUEST,
-    GET_ALL_PARTNERS_SUCCESS, 
-    GET_ALL_PARTNERS_FAILURE
+    GET_ALL_PARTNERS_SUCCESS,
+    GET_ALL_PARTNERS_FAILURE,
+    DELETE_PARTNER_REQUEST,
+    DELETE_PARTNER_SUCCESS,
+    DELETE_PARTNER_FAILURE,
+    RESET_STATE,
+    GET_PARTNER_REQUEST,
+    GET_PARTNER_SUCCESS,
+    GET_PARTNER_FAILURE,
+    EDIT_PARTNER_REQUEST,
+    EDIT_PARTNER_SUCCESS,
+    EDIT_PARTNER_FAILURE,
 } from './constants.js';
 
 const initialState = {
     customer: {},
     newPartnerResult: false,
+    editPartnerResult: null,
+    deleteResult: null,
     partners: [],
+    partner: {},
     loading: false
 };
 
@@ -69,6 +82,67 @@ export const customerReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 partners: action.payload
+            }
+        case DELETE_PARTNER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case DELETE_PARTNER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                deleteResult: action.payload
+            }
+        case DELETE_PARTNER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                deleteResult: action.payload
+            }
+        case RESET_STATE:
+            return {
+                ...state,
+                loading: false,
+                deleteResult: null,
+                newPartnerResult: null,
+                editPartnerResult: null,
+                partner: {},
+                customer: {}
+            }
+        case GET_PARTNER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_PARTNER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                partner: action.payload
+            }
+        case GET_PARTNER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                partner: action.payload
+            }
+        case EDIT_PARTNER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case EDIT_PARTNER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                editPartnerResult: action.payload
+            }
+        case EDIT_PARTNER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                editPartnerResult: action.payload
             }
         default: return state
     }

@@ -10,3 +10,11 @@ export const post = (url, data) => {
 export const get = (url) => {
     return axios.get(API_URL + url, getHeader());
 }
+
+export const deleteReq = (url) => {
+    return axios.delete(API_URL + url, getHeader());
+}
+
+export const put = (url, data) => {
+    return axios.put(API_URL + url, data, getHeader());
+}

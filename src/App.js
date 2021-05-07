@@ -13,6 +13,7 @@ import PartnerOrderDetail from "./component/partner/orders/detail";
 import Login from "./component/admin/customer/login";
 import AdminPartnersIndex from "./component/admin/partner/index";
 import AdminNewPartner from "./component/admin/partner/new";
+import AdminEditPartner from "./component/admin/partner/edit";
 import AuthRoute from "./component/partials/AuthRoute";
 import Nav from "./component/partials/Nav";
 
@@ -34,6 +35,7 @@ function App() {
                   <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
                   <AuthRoute exact path="/admin/urunler" component={ProductsIndex} />
                   <AuthRoute exact path="/admin/tedarikciler" component={AdminPartnersIndex} />
+                  <AuthRoute exact path="/admin/tedarikciler/:id" component={AdminEditPartner} />
                   <AuthRoute exact path="/admin/yeni-tedarikci" component={AdminNewPartner} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>

@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setNewPartner } from '../../../redux/customer/action';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { editPartner, getPartner, resetState } from '../../../redux/customer/action';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import { Redirect } from 'react-router';
 
-const NewPartner = ({ result, setNewPartner }) => {
+const NewPartner = ({ getPartner, result, editPartner, resetState, partner, match }) => {
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        getPartner(match.params.id)
+
+        if (result) {
+            message.success("Tedarikçi Güncellendi");
+            resetState();
+        }
+    }, [getPartner, result, resetState, match, form]);
+
     const onFinish = (values) => {
-        setNewPartner(values);
+        values.id = partner.id;
+
+        if (values.password === "") {
+            delete values.password;
+        }
+
+        editPartner(values);
     }
 
-    return result === true ? <Redirect to="/admin/tedarikciler" /> : (
+    return (
         <Row type="flex"
             style={{ minHeight:'60vh' }}
             align="middle"
@@ -19,7 +36,20 @@ const NewPartner = ({ result, setNewPartner }) => {
             <Col sm={14} md={8} >
                 <Form
                 name="basic"
-                initialValues={{ remember: true }}
+                fields={[
+                    {
+                      name: ["name"],
+                      value: partner.name,
+                    },
+                    {
+                        name: ["userName"],
+                        value: partner.userName,
+                    },
+                    {
+                        name: ["partnerId"],
+                        value: partner.partnerId,
+                    },
+                ]}
                 onFinish={onFinish}
                 >
                     <Form.Item
@@ -49,9 +79,8 @@ const NewPartner = ({ result, setNewPartner }) => {
                     <Form.Item
                         label="Şifre"
                         name="password"
-                        rules={[{ required: true, message: 'Şifre boş bırakılamaz!' }]}
                     >
-                        <Input.Password />
+                        <Input.Password placeholder="Güncellemek için gir" />
                     </Form.Item>
 
                     <Form.Item>
@@ -68,13 +97,16 @@ const NewPartner = ({ result, setNewPartner }) => {
 
 const mapStateToProps = (state) => {
     return {
-        result: state.customer.newPartnerResult
+        result: state.customer.editPartnerResult,
+        partner: state.customer.partner
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setNewPartner: (partner) => dispatch(setNewPartner(partner))
+        editPartner: (partner) => dispatch(editPartner(partner)),
+        resetState: () => dispatch(resetState()),
+        getPartner: (id) => dispatch(getPartner(id))
     }
 }
 

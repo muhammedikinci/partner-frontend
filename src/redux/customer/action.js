@@ -1,4 +1,4 @@
-import { post, get } from '../../helper/request';
+import { post, get, deleteReq, put } from '../../helper/request';
 import { setToken } from "../../helper/token";
 import { setRole } from "../../helper/role";
 import { 
@@ -11,6 +11,16 @@ import {
     GET_ALL_PARTNERS_REQUEST,
     GET_ALL_PARTNERS_SUCCESS,
     GET_ALL_PARTNERS_FAILURE,
+    DELETE_PARTNER_REQUEST,
+    DELETE_PARTNER_SUCCESS,
+    DELETE_PARTNER_FAILURE,
+    RESET_STATE,
+    GET_PARTNER_REQUEST,
+    GET_PARTNER_SUCCESS,
+    GET_PARTNER_FAILURE,
+    EDIT_PARTNER_REQUEST,
+    EDIT_PARTNER_SUCCESS,
+    EDIT_PARTNER_FAILURE
 } from './constants.js';
 
 export const getLoginRequest = () => {
@@ -107,10 +117,119 @@ export const getAllPartners = () => {
     return dispatch => {
         dispatch(getAllPartnersRequest());
         get('/api/user').then(res => {
-            const result = res.data;
+            const result = res.data.filter(p => p.role !== "Admin");
             dispatch(getAllPartnersSuccess(result));
         }).catch(err => {
             dispatch(getAllPartnersFailure(err));
+        });
+    }
+}
+
+export const deletePartnerRequest = () => {
+    return {
+        type: DELETE_PARTNER_REQUEST
+    }
+}
+
+export const deletePartnerSuccess = payload => {
+    return {
+        type: DELETE_PARTNER_SUCCESS,
+        payload
+    }
+}
+
+export const deletePartnerFailure = payload => {
+    return {
+        type: DELETE_PARTNER_FAILURE,
+        payload
+    }
+}
+
+export const deletePartner = (id) => {
+    return dispatch => {
+        dispatch(deletePartnerRequest());
+        deleteReq('/api/user/' + id).then(res => {
+            const result = res.data;
+            dispatch(deletePartnerSuccess(result));
+            dispatch(getAllPartners());
+        }).catch(err => {
+            dispatch(deletePartnerFailure(err));
+        });
+    }
+}
+
+export const resetStateRequest = () => {
+    return {
+        type: RESET_STATE
+    }
+}
+
+export const resetState = () => {
+    return dispatch => {
+        dispatch(resetStateRequest());
+    }
+}
+
+export const getPartnerRequest = () => {
+    return {
+        type: GET_PARTNER_REQUEST
+    }
+}
+
+export const getPartnerSuccess = payload => {
+    return {
+        type: GET_PARTNER_SUCCESS,
+        payload
+    }
+}
+
+export const getPartnerFailure = payload => {
+    return {
+        type: GET_PARTNER_FAILURE,
+        payload
+    }
+}
+
+export const editPartnerRequest = () => {
+    return {
+        type: EDIT_PARTNER_REQUEST
+    }
+}
+
+export const editPartnerSuccess = payload => {
+    return {
+        type: EDIT_PARTNER_SUCCESS,
+        payload
+    }
+}
+
+export const editPartnerFailure = payload => {
+    return {
+        type: EDIT_PARTNER_FAILURE,
+        payload
+    }
+}
+
+export const editPartner = (partner) => {
+    return dispatch => {
+        dispatch(editPartnerRequest());
+        put('/api/user/' + partner.id, partner).then(res => {
+            const result = res.data;
+            dispatch(editPartnerSuccess(result));
+        }).catch(err => {
+            dispatch(editPartnerFailure(err));
+        });
+    }
+}
+
+export const getPartner = (id) => {
+    return dispatch => {
+        dispatch(getPartnerRequest());
+        get('/api/user/' + id).then(res => {
+            const result = res.data;
+            dispatch(getPartnerSuccess(result));
+        }).catch(err => {
+            dispatch(getPartnerFailure(err));
         });
     }
 }

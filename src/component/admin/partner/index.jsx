@@ -1,19 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getAllPartners } from '../../../redux/customer/action';
-import { Table, Space, Breadcrumb } from 'antd';
+import { getAllPartners, deletePartner, resetState } from '../../../redux/customer/action';
+import { Table, Breadcrumb, Popconfirm, message, Button } from 'antd';
 import { Link } from "react-router-dom";
 
 const { Column } = Table;
 
-const PartnersIndex = ({ partners, loading, getAllPartners }) => {
+const PartnersIndex = ({ partners, getAllPartners, deletePartner, resetState, deleteResult }) => {
   useEffect(() => {
     getAllPartners()
-  }, [getAllPartners]);
 
-  return loading ? (
-    <h2>Loading</h2>
-  ) : (
+    if (deleteResult) {
+      message.success('Tedarikçi başarıyla silindi!');
+      resetState();
+    }
+  }, [getAllPartners, deleteResult, resetState]);
+
+  function confirmDelete(id) {
+    deletePartner(id);
+  }
+  
+  function cancelDelete(e) {
+    message.error('Silme işlemi iptal edildi');
+  }
+
+  return (
     <div>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>Anasayfa</Breadcrumb.Item>
@@ -26,12 +37,25 @@ const PartnersIndex = ({ partners, loading, getAllPartners }) => {
         <Column title="Kullanıcı Adı" dataIndex="userName" key="id" />
         <Column title="Rol" dataIndex="role" key="id" />
         <Column
-          title="İşlem"
-          key="action"
+          title=""
+          key="id"
           render={(text, record) => (
-            <Space size="middle">
-              <Link to={'/admin/tedarikciler/' + record.id}>Düzenle</Link>
-            </Space>
+            <Button type="primary"><Link to={'/admin/tedarikciler/' + record.id}>Düzenle</Link></Button>
+          )}
+        />
+        <Column
+          title=""
+          key="id"
+          render={(text, record) => (
+            <Popconfirm
+              title="Tedarikçiyi silmek istediğinizden emin misiniz?"
+              onConfirm={() => confirmDelete(record.id)}
+              onCancel={cancelDelete}
+              okText="Evet"
+              cancelText="Hayır"
+            >
+              <Button danger>Sil</Button>
+            </Popconfirm>
           )}
         />
       </Table>
@@ -41,13 +65,16 @@ const PartnersIndex = ({ partners, loading, getAllPartners }) => {
 
 const mapStateToProps = (state) => {
   return {
-    partners: state.customer.partners
+    partners: state.customer.partners,
+    deleteResult: state.customer.deleteResult
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllPartners: () => dispatch(getAllPartners())
+    getAllPartners: () => dispatch(getAllPartners()),
+    deletePartner: (id) => dispatch(deletePartner(id)),
+    resetState: () => dispatch(resetState())
   }
 }
 
