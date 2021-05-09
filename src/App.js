@@ -5,7 +5,7 @@ import "./App.css";
 import { Provider } from 'react-redux';
 import store from './store.js';
 
-import ProductsIndex from "./component/admin/products/index";
+import AdminProductsIndex from "./component/admin/products/index";
 import AdminOrdersIndex from "./component/admin/orders/index";
 import AdminOrderDetail from "./component/admin/orders/detail";
 import PartnerOrdersIndex from "./component/partner/orders/index";
@@ -31,12 +31,12 @@ function App() {
                 <Switch>
                   <AuthRoute exact path="/admin/siparisler" component={AdminOrdersIndex} />
                   <AuthRoute exact path="/admin/siparisler/:id" component={AdminOrderDetail} />
-                  <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
-                  <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
-                  <AuthRoute exact path="/admin/urunler" component={ProductsIndex} />
+                  <AuthRoute exact path="/admin/urunler" component={AdminProductsIndex} />
                   <AuthRoute exact path="/admin/tedarikciler" component={AdminPartnersIndex} />
                   <AuthRoute exact path="/admin/tedarikciler/:id" component={AdminEditPartner} />
                   <AuthRoute exact path="/admin/yeni-tedarikci" component={AdminNewPartner} />
+                  <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
+                  <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>
               </Content>
