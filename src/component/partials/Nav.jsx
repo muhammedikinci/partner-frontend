@@ -9,6 +9,7 @@ const { Header } = Layout;
 const Nav = ({ customer }) => {
     return isAdmin() ? ((customer.token || getToken()) ? (
         <Header className="header">
+            <div style={{float: 'left', color: 'white', marginRight: '20px'}}>Admin</div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1"><Link to={`/admin/siparisler`}>Siparişler</Link></Menu.Item>
                 <Menu.Item key="2"><Link to={`/admin/urunler`}>Ürünler</Link></Menu.Item>
