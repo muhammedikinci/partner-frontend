@@ -13,9 +13,9 @@ const Nav = ({ customer }) => {
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1"><Link to={`/admin/siparisler`}>Siparişler</Link></Menu.Item>
                 <Menu.Item key="2"><Link to={`/admin/urunler`}>Ürünler</Link></Menu.Item>
-                <Menu.Item key="4"><Link to={`/admin/tedarikciler`}>Tedarikçiler</Link></Menu.Item>
-                <Menu.Item key="5"><Link to={`/admin/yeni-tedarikci`}>Yeni Tedarikçi</Link></Menu.Item>
-                <Menu.Item key="6" onClick={() => { removeToken(); window.location.href = '/giris' }} >Çıkış</Menu.Item>
+                <Menu.Item key="3"><Link to={`/admin/tedarikciler`}>Tedarikçiler</Link></Menu.Item>
+                <Menu.Item key="4"><Link to={`/admin/yeni-tedarikci`}>Yeni Tedarikçi</Link></Menu.Item>
+                <Menu.Item key="5" onClick={() => { removeToken(); window.location.href = '/giris' }} >Çıkış</Menu.Item>
             </Menu>
         </Header>
     ) : null) : ((customer.token || getToken()) ? (
@@ -23,9 +23,10 @@ const Nav = ({ customer }) => {
             <div style={{float: 'left', color: 'white', marginRight: '20px'}}>{customer.userName}</div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1"><Link to={`/siparisler`}>Siparişler</Link></Menu.Item>
-                <Menu.Item key="2"><Link to={`/urunler`}>Ürünler</Link></Menu.Item>
-                <Menu.Item key="3"><Link to={`/profil`}>Profil</Link></Menu.Item>
-                <Menu.Item key="6" onClick={() => { removeToken(); window.location.href = '/giris' }} >Çıkış</Menu.Item>
+                <Menu.Item key="2"><Link to={`/sistem-urunleri`}>Sistem Ürünleri</Link></Menu.Item>
+                <Menu.Item key="3"><Link to={`/urun-taleplerim`}>Ürün Taleplerim</Link></Menu.Item>
+                <Menu.Item key="4"><Link to={`/profil`}>Profil</Link></Menu.Item>
+                <Menu.Item key="5" onClick={() => { removeToken(); window.location.href = '/giris' }} >Çıkış</Menu.Item>
             </Menu>
         </Header>
     ) : null);

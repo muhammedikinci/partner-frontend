@@ -8,12 +8,17 @@ import store from './store.js';
 import AdminProductsIndex from "./component/admin/products/index";
 import AdminOrdersIndex from "./component/admin/orders/index";
 import AdminOrderDetail from "./component/admin/orders/detail";
-import PartnerOrdersIndex from "./component/partner/orders/index";
-import PartnerOrderDetail from "./component/partner/orders/detail";
-import Login from "./component/admin/customer/login";
+
 import AdminPartnersIndex from "./component/admin/partner/index";
 import AdminNewPartner from "./component/admin/partner/new";
 import AdminEditPartner from "./component/admin/partner/edit";
+
+import PartnerOrdersIndex from "./component/partner/orders/index";
+import PartnerOrderDetail from "./component/partner/orders/detail";
+
+import PartnerProductsIndex from "./component/partner/products/index";
+
+import Login from "./component/admin/customer/login";
 import AuthRoute from "./component/partials/AuthRoute";
 import Nav from "./component/partials/Nav";
 
@@ -37,6 +42,7 @@ function App() {
                   <AuthRoute exact path="/admin/yeni-tedarikci" component={AdminNewPartner} />
                   <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
                   <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
+                  <AuthRoute exact path="/sistem-urunleri" component={PartnerProductsIndex} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>
               </Content>

@@ -1,7 +1,19 @@
 import { getHeader } from '../helper/header'
+import { removeToken } from '../helper/token'
 import axios from 'axios';
 
 const API_URL = "http://localhost:5000";
+const LOGIN_URL = "/giris";
+
+axios.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
+    if (error.message.indexOf('code 401') !== -1) {
+        removeToken();
+        window.location.href = LOGIN_URL;
+    }
+    return Promise.reject(error);
+  });
 
 export const post = (url, data) => {
     return axios.post(API_URL + url, data, getHeader());
