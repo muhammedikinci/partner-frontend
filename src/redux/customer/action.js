@@ -1,5 +1,5 @@
-import { post, get, deleteReq, put } from '../../helper/request';
-import { setToken } from "../../helper/token";
+import { post, get, deleteReq, put, customPost } from '../../helper/request';
+import { setToken, getToken } from "../../helper/token";
 import { setRole } from "../../helper/role";
 import { 
     GET_LOGIN_REQUEST,
@@ -231,5 +231,14 @@ export const getPartner = (id) => {
         }).catch(err => {
             dispatch(getPartnerFailure(err));
         });
+    }
+}
+
+export const syncPartner = (id) => {
+    return () => {
+        let formd = new FormData();
+        formd.append("partner_id", id);
+        formd.append("token", getToken());
+        customPost('http://localhost/index.php?route=common/get_products/updateOrCreate', formd);
     }
 }

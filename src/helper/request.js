@@ -30,3 +30,7 @@ export const deleteReq = (url) => {
 export const put = (url, data) => {
     return axios.put(API_URL + url, data, getHeader());
 }
+
+export const customPost = (url, data) => {
+    return axios.post(url, data);
+}

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getAllPartners, deletePartner, resetState } from '../../../redux/customer/action';
+import { getAllPartners, deletePartner, resetState, syncPartner } from '../../../redux/customer/action';
 import { Table, Breadcrumb, Popconfirm, message, Button } from 'antd';
 import { Link } from "react-router-dom";
 
 const { Column } = Table;
 
-const PartnersIndex = ({ partners, getAllPartners, deletePartner, resetState, deleteResult }) => {
+const PartnersIndex = ({ partners, getAllPartners, deletePartner, resetState, deleteResult, syncPartner }) => {
   useEffect(() => {
     getAllPartners()
 
@@ -22,6 +22,14 @@ const PartnersIndex = ({ partners, getAllPartners, deletePartner, resetState, de
   
   function cancelDelete(e) {
     message.error('Silme işlemi iptal edildi');
+  }
+
+  function confirmSync(id) {
+    syncPartner(id);
+  }
+  
+  function cancelSync(e) {
+    message.error('Eşitleme iptal edildi');
   }
 
   return (
@@ -41,6 +49,21 @@ const PartnersIndex = ({ partners, getAllPartners, deletePartner, resetState, de
           key="id"
           render={(text, record) => (
             <Button type="primary"><Link to={'/admin/tedarikciler/' + record.id}>Düzenle</Link></Button>
+          )}
+        />
+        <Column
+          title=""
+          key="id"
+          render={(text, record) => (
+            <Popconfirm
+              title="Ürün eşitlemesi başlatılsın mı?"
+              onConfirm={() => confirmSync(record.partnerId)}
+              onCancel={cancelSync}
+              okText="Evet"
+              cancelText="Hayır"
+            >
+              <Button>Ürünleri Eşitle</Button>
+            </Popconfirm>
           )}
         />
         <Column
@@ -74,7 +97,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllPartners: () => dispatch(getAllPartners()),
     deletePartner: (id) => dispatch(deletePartner(id)),
-    resetState: () => dispatch(resetState())
+    resetState: () => dispatch(resetState()),
+    syncPartner: (id) => dispatch(syncPartner(id))
   }
 }
 
