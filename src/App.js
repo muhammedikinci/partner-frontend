@@ -16,6 +16,11 @@ import AdminEditPartner from "./component/admin/partner/edit";
 import PartnerOrdersIndex from "./component/partner/orders/index";
 import PartnerOrderDetail from "./component/partner/orders/detail";
 
+import PartnerProductRequestIndex from "./component/partner/productRequests/index";
+import PartnerProductRequestDetail from "./component/partner/productRequests/detail";
+import PartnerProductRequestNew from "./component/partner/productRequests/new";
+import PartnerProductRequestEdit from "./component/partner/productRequests/edit";
+
 import PartnerProductsIndex from "./component/partner/products/index";
 
 import Login from "./component/admin/customer/login";
@@ -43,6 +48,10 @@ function App() {
                   <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
                   <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
                   <AuthRoute exact path="/sistem-urunleri" component={PartnerProductsIndex} />
+                  <AuthRoute exact path="/urun-taleplerim/:id" component={PartnerProductRequestDetail} />
+                  <AuthRoute exact path="/urun-taleplerim" component={PartnerProductRequestIndex} />
+                  <AuthRoute exact path="/yeni-urun-talebi" component={PartnerProductRequestNew} />
+                  <AuthRoute exact path="/urun-talebini-duzenle/:id" component={PartnerProductRequestEdit} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>
               </Content>
