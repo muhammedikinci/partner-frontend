@@ -50,7 +50,7 @@ const ProductRequestsDetail = ({ request, getProductRequest, loading, match }) =
             request.fixNecessary ? (
               <Button type="dashed"><Link to={"/urun-talebini-duzenle/" + request.id}>Talebi Düzenle</Link></Button>
             ) : (
-              <p>Talep düzenlemeye kapatılmış</p>
+              <p>Talep, düzenlemeye kapatılmış</p>
             )
           }
         </Col>

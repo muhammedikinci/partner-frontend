@@ -14,6 +14,9 @@ import {
     EDIT_PRODUCT_REQUEST_REQUEST,
     EDIT_PRODUCT_REQUEST_SUCCESS,
     EDIT_PRODUCT_REQUEST_FAILURE,
+    GET_ALL_REQUESTS_REQUEST,
+    GET_ALL_REQUESTS_SUCCESS,
+    GET_ALL_REQUESTS_FAILURE,
 } from './constants.js';
 
 // reset state start
@@ -122,7 +125,7 @@ export const getProductRequestFailure = payload => {
 export const getProductRequest = (id, isAdmin) => {
     return dispatch => {
         dispatch(getProductRequestRequest());
-        get('/api/product-request/' + (!isAdmin && "my/") + id).then(res => {
+        get('/api/product-request/' + (!isAdmin ? "my/" : "") + id).then(res => {
             const request = res.data;
             dispatch(getProductRequestSuccess(request));
         }).catch(err => {
@@ -156,7 +159,7 @@ export const editProductRequestFailure = payload => {
 export const editProductRequest = (productRequest, isAdmin) => {
     return dispatch => {
         dispatch(editProductRequestRequest());
-        put('/api/product-request/' + (!isAdmin && "my/"), productRequest).then(res => {
+        put('/api/product-request' + (!isAdmin ? "/my" : ""), productRequest).then(res => {
             const request = res.data;
             dispatch(editProductRequestSuccess(request));
         }).catch(err => {
@@ -165,3 +168,37 @@ export const editProductRequest = (productRequest, isAdmin) => {
     }
 }
 // get product request end
+
+// get all requests start
+export const getAllRequestsRequest = () => {
+    return {
+        type: GET_ALL_REQUESTS_REQUEST
+    }
+}
+
+export const getAllRequestsSuccess = payload => {
+    return {
+        type: GET_ALL_REQUESTS_SUCCESS,
+        payload
+    }
+}
+
+export const getAllRequestsFailure = payload => {
+    return {
+        type: GET_ALL_REQUESTS_FAILURE,
+        payload
+    }
+}
+
+export const getAllRequests = () => {
+    return dispatch => {
+        dispatch(getAllRequestsRequest());
+        get('/api/product-request').then(res => {
+            const requests = res.data;
+            dispatch(getAllRequestsSuccess(requests));
+        }).catch(err => {
+            dispatch(getAllRequestsFailure(err));
+        });
+    }
+}
+// get all requests end

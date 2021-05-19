@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getAllMyRequests } from '../../../redux/productRequests/action';
-import { Table, Space, Breadcrumb, Button } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { getAllRequests } from '../../../redux/productRequests/action';
+import { Table, Space, Breadcrumb } from 'antd';
 import { Link } from "react-router-dom";
 
 const { Column } = Table;
 
-const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
+const AdminProductRequestsIndex = ({ requests, loading, getAllRequests }) => {
   const [statustypes, setStatusTypes] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
 
   useEffect(() => {
-    if (!my_requests || my_requests.length === 0) {
-      getAllMyRequests()
+    if (!requests || requests.length === 0) {
+      getAllRequests()
     }
 
-    if (my_requests) {
+    if (requests) {
       let types = {}
-      my_requests.forEach((r) => {
+      requests.forEach((r) => {
         types[r.requestStatus.type] = r.requestStatus.type;
         r["statusText"] = r.requestStatus.type;
         r["productName"] = r.productDetail.name;
@@ -26,19 +25,19 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
 
       setStatusTypes(Object.values(types).map((t) => { return { text: t, value: t } }));
     }
-  }, [getAllMyRequests, my_requests, setStatusTypes]);
+  }, [getAllRequests, requests, setStatusTypes]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     let newData = [];
 
     if (filters.statusText) {
-      for (let req of my_requests) {
+      for (let req of requests) {
         if (filters.statusText.indexOf(req.requestStatus.type) !== -1) {
           newData.push(req);
         }
       }
     } else {
-      newData = my_requests;
+      newData = requests;
     }
 
     setFilteredRequests(newData);
@@ -50,14 +49,12 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
     <div>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>Anasayfa</Breadcrumb.Item>
-        <Breadcrumb.Item>Ürün Taleplerim</Breadcrumb.Item>
+        <Breadcrumb.Item>Ürün Talepleri</Breadcrumb.Item>
       </Breadcrumb>
-      <h1>Ürün Taleplerim</h1>
-      <div style={{ marginBottom: '20px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-        <Button type="primary" icon={<PlusCircleOutlined style={{ fontSize: '15px' }} />}><Link style={{ color: 'white', marginLeft: '5px' }} to="/yeni-urun-talebi">Yeni Ürün Talebi</Link></Button>
-      </div>
-      <Table dataSource={filteredRequests.length > 0 ? filteredRequests : my_requests} onChange={handleTableChange} >
+      <h1>Ürün Talepleri</h1>
+      <Table dataSource={filteredRequests.length > 0 ? filteredRequests : requests} onChange={handleTableChange} >
         <Column title="Talep No" dataIndex="id" key="id" />
+        <Column title="Tedarikçi No" dataIndex="partnerId" key="partnerId" />
         <Column title="Ürün Adı" dataIndex="productName" key="productName" />
         <Column 
           title="Talep Durumu" 
@@ -71,7 +68,7 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
           key="action"
           render={(text, record) => (
             <Space size="middle">
-              <Link to={'/urun-taleplerim/' + record.id}>Görüntüle</Link>
+              <Link to={'/admin/urun-talepleri/' + record.id}>Görüntüle</Link>
             </Space>
           )}
         />
@@ -82,17 +79,17 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
 
 const mapStateToProps = (state) => {
   return {
-    my_requests: state.productRequests.my_requests,
+    requests: state.productRequests.requests,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllMyRequests: () => dispatch(getAllMyRequests()),
+    getAllRequests: () => dispatch(getAllRequests()),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductRequestsIndex);
+)(AdminProductRequestsIndex);

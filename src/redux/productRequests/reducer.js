@@ -12,6 +12,9 @@ import {
     EDIT_PRODUCT_REQUEST_REQUEST,
     EDIT_PRODUCT_REQUEST_SUCCESS,
     EDIT_PRODUCT_REQUEST_FAILURE,
+    GET_ALL_REQUESTS_REQUEST,
+    GET_ALL_REQUESTS_SUCCESS,
+    GET_ALL_REQUESTS_FAILURE,
 } from './constants.js';
 
 const initialState = {
@@ -101,6 +104,23 @@ export const productRequestsReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 editProductRequestResult: action.payload
+            }
+        case GET_ALL_REQUESTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_ALL_REQUESTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                requests: action.payload
+            }
+        case GET_ALL_REQUESTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                requests: action.payload
             }
         default: return state
     }

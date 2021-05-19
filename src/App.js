@@ -13,6 +13,9 @@ import AdminPartnersIndex from "./component/admin/partner/index";
 import AdminNewPartner from "./component/admin/partner/new";
 import AdminEditPartner from "./component/admin/partner/edit";
 
+import AdminProductRequestIndex from "./component/admin/productRequests/index";
+import AdminProductRequestDetail from "./component/admin/productRequests/detail";
+
 import PartnerOrdersIndex from "./component/partner/orders/index";
 import PartnerOrderDetail from "./component/partner/orders/detail";
 
@@ -45,6 +48,9 @@ function App() {
                   <AuthRoute exact path="/admin/tedarikciler" component={AdminPartnersIndex} />
                   <AuthRoute exact path="/admin/tedarikciler/:id" component={AdminEditPartner} />
                   <AuthRoute exact path="/admin/yeni-tedarikci" component={AdminNewPartner} />
+                  <AuthRoute exact path="/admin/urun-talepleri" component={AdminProductRequestIndex} />
+                  <AuthRoute exact path="/admin/urun-talepleri/:id" component={AdminProductRequestDetail} />
+
                   <AuthRoute exact path="/siparisler" component={PartnerOrdersIndex} />
                   <AuthRoute exact path="/siparisler/:id" component={PartnerOrderDetail} />
                   <AuthRoute exact path="/sistem-urunleri" component={PartnerProductsIndex} />
