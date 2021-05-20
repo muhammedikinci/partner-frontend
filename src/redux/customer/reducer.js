@@ -18,6 +18,12 @@ import {
     EDIT_PARTNER_REQUEST,
     EDIT_PARTNER_SUCCESS,
     EDIT_PARTNER_FAILURE,
+    GET_MY_DATA_REQUEST,
+    GET_MY_DATA_SUCCESS,
+    GET_MY_DATA_FAILURE,
+    UPDATE_MY_DATA_REQUEST,
+    UPDATE_MY_DATA_SUCCESS,
+    UPDATE_MY_DATA_FAILURE,
 } from './constants.js';
 
 const initialState = {
@@ -139,6 +145,40 @@ export const customerReducer = (state = initialState, action) => {
                 editPartnerResult: action.payload
             }
         case EDIT_PARTNER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                editPartnerResult: action.payload
+            }
+        case GET_MY_DATA_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_MY_DATA_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                partner: action.payload
+            }
+        case GET_MY_DATA_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                partner: action.payload
+            }
+        case UPDATE_MY_DATA_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case UPDATE_MY_DATA_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                editPartnerResult: action.payload
+            }
+        case UPDATE_MY_DATA_FAILURE:
             return {
                 ...state,
                 loading: false,

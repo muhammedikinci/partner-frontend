@@ -23,6 +23,7 @@ import PartnerProductRequestIndex from "./component/partner/productRequests/inde
 import PartnerProductRequestDetail from "./component/partner/productRequests/detail";
 import PartnerProductRequestNew from "./component/partner/productRequests/new";
 import PartnerProductRequestEdit from "./component/partner/productRequests/edit";
+import PartnerProfileEdit from "./component/partner/profile/edit";
 
 import PartnerProductsIndex from "./component/partner/products/index";
 
@@ -58,6 +59,7 @@ function App() {
                   <AuthRoute exact path="/urun-taleplerim" component={PartnerProductRequestIndex} />
                   <AuthRoute exact path="/yeni-urun-talebi" component={PartnerProductRequestNew} />
                   <AuthRoute exact path="/urun-talebini-duzenle/:id" component={PartnerProductRequestEdit} />
+                  <AuthRoute exact path="/profil" component={PartnerProfileEdit} />
                   <Route exact path="/giris" component={Login} />
                 </Switch>
               </Content>

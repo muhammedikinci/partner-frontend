@@ -20,7 +20,13 @@ import {
     GET_PARTNER_FAILURE,
     EDIT_PARTNER_REQUEST,
     EDIT_PARTNER_SUCCESS,
-    EDIT_PARTNER_FAILURE
+    EDIT_PARTNER_FAILURE,
+    GET_MY_DATA_REQUEST,
+    GET_MY_DATA_SUCCESS,
+    GET_MY_DATA_FAILURE,
+    UPDATE_MY_DATA_REQUEST,
+    UPDATE_MY_DATA_SUCCESS,
+    UPDATE_MY_DATA_FAILURE,
 } from './constants.js';
 
 export const getLoginRequest = () => {
@@ -240,5 +246,69 @@ export const syncPartner = (id) => {
         formd.append("partner_id", id);
         formd.append("token", getToken());
         customPost('http://localhost/index.php?route=common/get_products/updateOrCreate', formd);
+    }
+}
+
+export const getMyDataRequest = () => {
+    return {
+        type: GET_MY_DATA_REQUEST
+    }
+}
+
+export const getMyDataSuccess = payload => {
+    return {
+        type: GET_MY_DATA_SUCCESS,
+        payload
+    }
+}
+
+export const getMyDataFailure = payload => {
+    return {
+        type: GET_MY_DATA_FAILURE,
+        payload
+    }
+}
+
+export const getMyData = () => {
+    return dispatch => {
+        dispatch(getMyDataRequest());
+        get('/api/user/get-my-data').then(res => {
+            const result = res.data;
+            dispatch(getMyDataSuccess(result));
+        }).catch(err => {
+            dispatch(getMyDataFailure(err));
+        });
+    }
+}
+
+export const updateMyDataRequest = () => {
+    return {
+        type: UPDATE_MY_DATA_REQUEST
+    }
+}
+
+export const updateMyDataSuccess = payload => {
+    return {
+        type: UPDATE_MY_DATA_SUCCESS,
+        payload
+    }
+}
+
+export const updateMyDataFailure = payload => {
+    return {
+        type: UPDATE_MY_DATA_FAILURE,
+        payload
+    }
+}
+
+export const updateMyData = (partner) => {
+    return dispatch => {
+        dispatch(updateMyDataRequest());
+        put('/api/user/update-my-data', partner).then(res => {
+            const result = res.data;
+            dispatch(updateMyDataSuccess(result));
+        }).catch(err => {
+            dispatch(updateMyDataFailure(err));
+        });
     }
 }
