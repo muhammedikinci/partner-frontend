@@ -1,18 +1,27 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getOrderById } from '../../../redux/order/action';
-import { Table, Row, Col, Card, List, Breadcrumb } from 'antd';
+import { getOrderById, resetState } from '../../../redux/order/action';
+import { Table, Row, Col, Card, List, Breadcrumb, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 const { Column } = Table;
 
-const OrderDetail = ({ order, loading, getOrderById, match }) => {
-  useEffect(() => {
-    getOrderById(match.params.id)
-  }, [getOrderById, match]);
+const OrderDetail = ({ order, loading, getOrderById, match, errorMessage, resetState }) => {
+  const history = useHistory();
 
-  return loading ? (
-    <h2>Loading</h2>
-  ) : (
+  useEffect(() => {
+    if ((!order.orderId || order.id !== match.params.id) && !errorMessage) {
+      getOrderById(match.params.id);
+    }
+
+    if (errorMessage) {
+      message.error(errorMessage.errorMessage);
+      resetState();
+      history.push('/admin/siparisler');
+    }
+  }, [getOrderById, match, loading, order, errorMessage, resetState, history]);
+
+  return (
     <div>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>Anasayfa</Breadcrumb.Item>
@@ -84,13 +93,15 @@ const OrderDetail = ({ order, loading, getOrderById, match }) => {
 
 const mapStateToProps = (state) => {
   return {
-    order: state.order.selectedOrder
+    order: state.order.selectedOrder,
+    errorMessage: state.order.errorMessage
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOrderById: (id) => dispatch(getOrderById(id))
+    getOrderById: (id) => dispatch(getOrderById(id)),
+    resetState: () => dispatch(resetState())
   }
 }
 

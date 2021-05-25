@@ -2,18 +2,27 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { editPartner, getPartner, resetState } from '../../../redux/customer/action';
 import { Form, Input, Button, Row, Col, message, Breadcrumb } from 'antd';
+import { useHistory } from 'react-router-dom';
 
-const NewPartner = ({ getPartner, result, editPartner, resetState, partner, match }) => {
-    const [form] = Form.useForm();
-
+const NewPartner = ({ getPartner, result, editPartner, resetState, partner, match, errorMessage }) => {
+    const history = useHistory();
+    
     useEffect(() => {
-        getPartner(match.params.id)
+        if ((!partner.id || partner.id !== match.params.id) && !errorMessage) {
+            getPartner(match.params.id);
+        }
 
         if (result) {
             message.success("Tedarikçi Güncellendi");
             resetState();
+            history.push('/admin/tedarikciler');
         }
-    }, [getPartner, result, resetState, match, form]);
+
+        if (errorMessage) {
+            message.error(errorMessage.errorMessage);
+            resetState();
+        }
+    }, [getPartner, result, resetState, match, errorMessage, partner, history]);
 
     const onFinish = (values) => {
         values.id = partner.id;
@@ -196,7 +205,8 @@ const NewPartner = ({ getPartner, result, editPartner, resetState, partner, matc
 const mapStateToProps = (state) => {
     return {
         result: state.customer.editPartnerResult,
-        partner: state.customer.partner
+        partner: state.customer.partner,
+        errorMessage: state.customer.errorMessage
     }
 }
 

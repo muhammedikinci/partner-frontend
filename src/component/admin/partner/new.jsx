@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { resetState, setNewPartner } from '../../../redux/customer/action';
-import { Form, Input, Button, Row, Col, Breadcrumb } from 'antd';
+import { Form, Input, Button, Row, Col, Breadcrumb, message } from 'antd';
 import { Redirect } from 'react-router';
 
-const NewPartner = ({ result, setNewPartner, resetState }) => {
+const NewPartner = ({ result, setNewPartner, resetState, errorMessage }) => {
     const onFinish = (values) => {
         setNewPartner(values);
     }
@@ -13,7 +13,12 @@ const NewPartner = ({ result, setNewPartner, resetState }) => {
         if (result) {
             resetState();
         }
-    }, [resetState, result]);
+
+        if (errorMessage) {
+            message.warn(errorMessage.errorMessage);
+            resetState();
+        }
+    }, [resetState, result, errorMessage]);
 
     return result === true ? <Redirect to="/admin/tedarikciler" /> : (
         <div>
@@ -141,13 +146,14 @@ const NewPartner = ({ result, setNewPartner, resetState }) => {
 const mapStateToProps = (state) => {
     return {
         result: state.customer.newPartnerResult,
+        errorMessage: state.customer.errorMessage
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setNewPartner: (partner) => dispatch(setNewPartner(partner)),
-        resetState: () => dispatch(resetState)
+        resetState: () => dispatch(resetState())
     }
 }
 

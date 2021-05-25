@@ -33,7 +33,8 @@ const initialState = {
     deleteResult: null,
     partners: [],
     partner: {},
-    loading: false
+    loading: false,
+    errorMessage: null
 };
 
 export const customerReducer = (state = initialState, action) => {
@@ -53,7 +54,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                customer: action.payload
+                errorMessage: action.payload
             }
         case SET_NEW_PARTNER_REQUEST:
             return {
@@ -70,7 +71,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                newPartnerResult: action.payload
+                errorMessage: action.payload
             }
         case GET_ALL_PARTNERS_REQUEST:
             return {
@@ -87,7 +88,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                partners: action.payload
+                errorMessage: action.payload
             }
         case DELETE_PARTNER_REQUEST:
             return {
@@ -104,7 +105,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                deleteResult: action.payload
+                errorMessage: action.payload
             }
         case RESET_STATE:
             return {
@@ -114,7 +115,8 @@ export const customerReducer = (state = initialState, action) => {
                 newPartnerResult: null,
                 editPartnerResult: null,
                 partner: {},
-                customer: {}
+                customer: {},
+                errorMessage: null
             }
         case GET_PARTNER_REQUEST:
             return {
@@ -131,7 +133,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                partner: action.payload
+                errorMessage: action.payload
             }
         case EDIT_PARTNER_REQUEST:
             return {
@@ -148,7 +150,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                editPartnerResult: action.payload
+                errorMessage: action.payload
             }
         case GET_MY_DATA_REQUEST:
             return {
@@ -165,7 +167,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                partner: action.payload
+                errorMessage: action.payload
             }
         case UPDATE_MY_DATA_REQUEST:
             return {
@@ -182,7 +184,7 @@ export const customerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                editPartnerResult: action.payload
+                errorMessage: action.payload
             }
         default: return state
     }

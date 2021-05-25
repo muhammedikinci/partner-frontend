@@ -5,8 +5,15 @@ import {
     GET_ALL_ORDER_FAILURE,
     GET_ORDER_BY_ID_REQUEST,
     GET_ORDER_BY_ID_SUCCESS,
-    GET_ORDER_BY_ID_FAILURE
+    GET_ORDER_BY_ID_FAILURE,
+    RESET_STATE
 } from './constants.js';
+
+export const resetState = () => {
+    return {
+        type: RESET_STATE
+    }
+}
 
 export const getAllOrderRequest = () => {
     return {

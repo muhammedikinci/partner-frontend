@@ -1,14 +1,25 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getOrderById } from '../../../redux/order/action';
-import { Table, Row, Col, Card, List, Breadcrumb } from 'antd';
+import { getOrderById, resetState } from '../../../redux/order/action';
+import { Table, Row, Col, Card, List, Breadcrumb, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 const { Column } = Table;
 
-const OrderDetail = ({ order, loading, getOrderById, match }) => {
+const OrderDetail = ({ order, loading, getOrderById, match, resetState, errorMessage }) => {
+  const history = useHistory();
+
   useEffect(() => {
-    getOrderById(match.params.id)
-  }, [getOrderById, match]);
+    if ((!order.id || order.id !== match.params.id) && !errorMessage) {
+      getOrderById(match.params.id);
+    }
+
+    if (errorMessage) {
+      message.error(errorMessage.errorMessage);
+      resetState();
+      history.push('/sistem-urunleri');
+    }
+  }, [getOrderById, match, errorMessage, resetState, order]);
 
   return loading ? (
     <h2>Loading</h2>
@@ -84,13 +95,15 @@ const OrderDetail = ({ order, loading, getOrderById, match }) => {
 
 const mapStateToProps = (state) => {
   return {
-    order: state.order.selectedOrder
+    order: state.order.selectedOrder,
+    errorMessage: state.order.errorMessage
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOrderById: (id) => dispatch(getOrderById(id))
+    getOrderById: (id) => dispatch(getOrderById(id)),
+    resetState: () => dispatch(resetState())
   }
 }
 

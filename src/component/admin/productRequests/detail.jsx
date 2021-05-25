@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { editProductRequest, getProductRequest, resetState } from '../../../redux/productRequests/action';
 import { Row, Col, Breadcrumb, Image, Form, Input, Button, Switch, message  } from 'antd';
+import { useHistory } from "react-router-dom";
 
-const AdminProductRequestDetail = ({ request, getProductRequest, loading, match, editProductRequestResult, editProductRequest, resetState }) => {
+const AdminProductRequestDetail = ({ request, getProductRequest, loading, match, editProductRequestResult, editProductRequest, resetState, errorMessage }) => {
   const [fixNecessarySwitchBool, setFixNecessarySwitchBool] = useState(null);
+  const history = useHistory();
   
   useEffect(() => {
-    if (!request.id) {
+    if ((!request.id || request.id !== match.params.id) && !errorMessage) {
       getProductRequest(match.params.id);
     }
 
@@ -15,16 +17,17 @@ const AdminProductRequestDetail = ({ request, getProductRequest, loading, match,
       setFixNecessarySwitchBool(request.fixNecessary);
     }
 
-    if (editProductRequestResult === false) {
-      message.error("Düzenleme başarısız");
+    if (errorMessage) {
+      message.error(errorMessage.errorMessage);
       resetState();
+      history.push('/admin/urun-talepleri');
     }
 
     if (editProductRequestResult === true) {
       message.success("Talep başarıyla düzenlendi");
       resetState();
     }
-  }, [getProductRequest, match, editProductRequestResult, resetState, request, fixNecessarySwitchBool, setFixNecessarySwitchBool]);
+  }, [getProductRequest, match, editProductRequestResult, resetState, request, fixNecessarySwitchBool, setFixNecessarySwitchBool, errorMessage, history]);
 
   const onFinish = (values) => {
     request.requestStatus.type = values.type;
@@ -127,7 +130,8 @@ const AdminProductRequestDetail = ({ request, getProductRequest, loading, match,
 const mapStateToProps = (state) => {
   return {
     request: state.productRequests.request,
-    editProductRequestResult: state.productRequests.editProductRequestResult
+    editProductRequestResult: state.productRequests.editProductRequestResult,
+    errorMessage: state.productRequests.errorMessage
   }
 }
 

@@ -1,14 +1,25 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getOrderById } from '../../../redux/order/action';
-import { Table, Row, Col, Card, List, Breadcrumb } from 'antd';
+import { getOrderById, resetState } from '../../../redux/order/action';
+import { Table, Row, Col, Card, List, Breadcrumb, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 const { Column } = Table;
 
-const OrderDetail = ({ order, loading, getOrderById, match }) => {
+const OrderDetail = ({ order, loading, getOrderById, match, resetState, errorMessage }) => {
+  const history = useHistory();
+
   useEffect(() => {
-    getOrderById(match.params.id)
-  }, [getOrderById, match]);
+    if ((!order.id || order.id !== match.params.id) && !errorMessage) {
+      getOrderById(match.params.id);
+    }
+
+    if (errorMessage) {
+      message.error(errorMessage.errorMessage);
+      resetState();
+      history.push('/siparisler');
+    }
+  }, [getOrderById, match, resetState, errorMessage, history, order]);
 
   return loading ? (
     <h2>Loading</h2>
@@ -64,9 +75,10 @@ const OrderDetail = ({ order, loading, getOrderById, match }) => {
         <Col className="gutter-row" sm={24} md={24}>
           <Table dataSource={order.products}>
             <Column title="Model" dataIndex="model" key="model" />
-            <Column title="Ürün Adı" dataIndex="name" />
-            <Column title="Adet" dataIndex="quantity" />
-            <Column 
+            <Column title="Ürün Adı" dataIndex="name" key="name" />
+            <Column title="Adet" dataIndex="quantity" key="quantity" />
+            <Column
+              key="id" 
               title="Seçenek"
               dataIndex="option"
               render={(text, record) => (
@@ -84,13 +96,15 @@ const OrderDetail = ({ order, loading, getOrderById, match }) => {
 
 const mapStateToProps = (state) => {
   return {
-    order: state.order.selectedOrder
+    order: state.order.selectedOrder,
+    errorMessage: state.order.errorMessage
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOrderById: (id) => dispatch(getOrderById(id))
+    getOrderById: (id) => dispatch(getOrderById(id)),
+    resetState: () => dispatch(resetState())
   }
 }
 

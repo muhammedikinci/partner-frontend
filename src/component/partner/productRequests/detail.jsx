@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getProductRequest } from '../../../redux/productRequests/action';
-import { Row, Col, Breadcrumb, Image, Button  } from 'antd';
-import { Link } from "react-router-dom";
+import { getProductRequest, resetState } from '../../../redux/productRequests/action';
+import { Row, Col, Breadcrumb, Image, Button, message  } from 'antd';
+import { Link, useHistory } from "react-router-dom";
 
-const ProductRequestsDetail = ({ request, getProductRequest, loading, match }) => {
+const ProductRequestsDetail = ({ request, getProductRequest, loading, match, resetState, errorMessage }) => {
+  const history = useHistory();
+
   useEffect(() => {
-    getProductRequest(match.params.id);
-  }, [getProductRequest, match]);
+    if ((!request.id || request.id !== match.params.id) && !errorMessage) {
+      getProductRequest(match.params.id);
+    }
+
+    if (errorMessage) {
+      message.error(errorMessage.errorMessage);
+      resetState();
+      history.push('/urun-taleplerim');
+    }
+  }, [getProductRequest, match, history, resetState, errorMessage, request]);
 
   return loading ? (
     <h2>Loading</h2>
@@ -61,13 +71,15 @@ const ProductRequestsDetail = ({ request, getProductRequest, loading, match }) =
 
 const mapStateToProps = (state) => {
   return {
-    request: state.productRequests.request
+    request: state.productRequests.request,
+    errorMessage: state.productRequests.errorMessage
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProductRequest: (id) => dispatch(getProductRequest(id))
+    getProductRequest: (id) => dispatch(getProductRequest(id)),
+    resetState: () => dispatch(resetState())
   }
 }
 

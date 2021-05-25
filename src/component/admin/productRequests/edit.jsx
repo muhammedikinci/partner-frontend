@@ -5,7 +5,7 @@ import { Form, Input, Button, Row, Col, Breadcrumb, Upload, message } from 'antd
 import { Redirect } from 'react-router';
 import { UploadOutlined } from '@ant-design/icons';
 
-const EditProductRequest = ({ editProductRequest, resetState, getProductRequest, match, request, editProductRequestResult }) => {
+const EditProductRequest = ({ editProductRequest, resetState, getProductRequest, match, request, editProductRequestResult, errorMessage }) => {
     const [images, setImages] = useState([]);
 
     const onFinish = (values) => {
@@ -64,11 +64,11 @@ const EditProductRequest = ({ editProductRequest, resetState, getProductRequest,
             getProductRequest(match.params.id);
         }
 
-        if (editProductRequestResult !== null && editProductRequestResult !== true) {
-            message.error("Düzenleme başarısız");
+        if (errorMessage) {
+            message.error(errorMessage.errorMessage);
             resetState();
         }
-    }, [resetState, editProductRequestResult, getProductRequest, match, request]);
+    }, [resetState, editProductRequestResult, getProductRequest, match, request, errorMessage]);
 
     return editProductRequestResult === true ? <Redirect to="/urun-taleplerim" /> : (
         <div>
@@ -196,7 +196,8 @@ const EditProductRequest = ({ editProductRequest, resetState, getProductRequest,
 const mapStateToProps = (state) => {
     return {
         request: state.productRequests.request,
-        editProductRequestResult: state.productRequests.editProductRequestResult
+        editProductRequestResult: state.productRequests.editProductRequestResult,
+        errorMessage: state.productRequests.errorMessage
     }
 }
 

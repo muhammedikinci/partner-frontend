@@ -23,7 +23,8 @@ const initialState = {
     request: {},
     loading: false,
     newProductRequestResult: null,
-    editProductRequestResult: null
+    editProductRequestResult: null,
+    errorMessage: null
 };
 
 export const productRequestsReducer = (state = initialState, action) => {
@@ -35,7 +36,8 @@ export const productRequestsReducer = (state = initialState, action) => {
                 request: {},
                 loading: false,
                 newProductRequestResult: null,
-                editProductRequestResult: null
+                editProductRequestResult: null,
+                errorMessage: null
             }
         case GET_ALL_MY_REQUESTS_REQUEST:
             return {
@@ -52,7 +54,7 @@ export const productRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                my_requests: action.payload
+                errorMessage: action.payload
             }
         case SET_NEW_PRODUCT_REQUEST_REQUEST:
             return {
@@ -69,7 +71,7 @@ export const productRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                newProductRequestResult: action.payload
+                errorMessage: action.payload
             }
         case GET_PRODUCT_REQUEST_REQUEST:
             return {
@@ -86,7 +88,7 @@ export const productRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                request: action.payload
+                errorMessage: action.payload
             }
         case EDIT_PRODUCT_REQUEST_REQUEST:
             return {
@@ -103,7 +105,7 @@ export const productRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                editProductRequestResult: action.payload
+                errorMessage: action.payload
             }
         case GET_ALL_REQUESTS_REQUEST:
             return {
@@ -120,7 +122,7 @@ export const productRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                requests: action.payload
+                errorMessage: action.payload
             }
         default: return state
     }

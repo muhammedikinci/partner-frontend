@@ -8,11 +8,12 @@ const LOGIN_URL = "/giris";
 axios.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-    if (error.message.indexOf('code 401') !== -1) {
+    if (error.message.indexOf('code 401') !== -1 || error.message.indexOf('code 403') !== -1) {
         removeToken();
         window.location.href = LOGIN_URL;
     }
-    return Promise.reject(error);
+
+    return Promise.reject(error.response.data);
   });
 
 export const post = (url, data) => {

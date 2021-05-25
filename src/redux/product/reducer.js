@@ -20,6 +20,7 @@ const initialState = {
     product: {},
     loading: false,
     stockRequestResult: null,
+    errorMessage: null
 };
 
 export const productReducer = (state = initialState, action) => {
@@ -31,6 +32,7 @@ export const productReducer = (state = initialState, action) => {
                 product: {},
                 loading: false,
                 stockRequestResult: null,
+                errorMessage: null
             }
         case GET_PRODUCT_REQUEST:
             return {
@@ -47,7 +49,7 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                product: action.payload
+                errorMessage: action.payload
             }
         case GET_ALL_PRODUCTS_REQUEST:
             return {
@@ -64,7 +66,7 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                products: action.payload
+                errorMessage: action.payload
             }
         case GET_MY_PRODUCTS_REQUEST:
             return {
@@ -81,7 +83,7 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                my_products: action.payload
+                errorMessage: action.payload
             }
         case SET_STOCK_REQUEST:
             return {
@@ -98,7 +100,7 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                stockRequestResult: action.payload
+                errorMessage: action.payload
             }
         default: return state
     }
