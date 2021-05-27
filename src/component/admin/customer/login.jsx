@@ -5,7 +5,7 @@ import { Form, Input, Button, Row, Col, Alert } from 'antd';
 import { Redirect } from 'react-router';
 import { ADMIN_ROLE } from '../../../helper/role';
 
-const Login = ({ customer, login }) => {
+const Login = ({ customer, login, errorMessage }) => {
   const onFinish = (values) => {
     login(values);
   };
@@ -24,7 +24,7 @@ const Login = ({ customer, login }) => {
       <Col sm={1} md={8} ></Col>
       <Col sm={14} md={8} >
         <h1 style={{ fontSize: '30px', textAlign: 'center' }}>Tedarikçi Paneli</h1>
-        {customer.message && <Alert message="Kullanıcı Adı veya Şifre yanlış!" type="error" style={{ marginBottom: '20px' }} />}
+        {errorMessage && <Alert message={errorMessage.errorMessage} type="error" style={{ marginBottom: '20px' }} />}
         <Form
           name="basic"
           initialValues={{ remember: true }}
@@ -61,7 +61,8 @@ const Login = ({ customer, login }) => {
 
 const mapStateToProps = (state) => {
   return {
-    customer: state.customer.customer
+    customer: state.customer.customer,
+    errorMessage: state.customer.errorMessage
   }
 }
 
