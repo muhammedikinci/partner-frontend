@@ -11,9 +11,7 @@ const AdminProductRequestsIndex = ({ requests, loading, getAllRequests }) => {
   const [filteredRequests, setFilteredRequests] = useState([]);
 
   useEffect(() => {
-    if (!requests || requests.length === 0) {
-      getAllRequests()
-    }
+    getAllRequests()
 
     if (requests) {
       let types = {}
@@ -25,7 +23,7 @@ const AdminProductRequestsIndex = ({ requests, loading, getAllRequests }) => {
 
       setStatusTypes(Object.values(types).map((t) => { return { text: t, value: t } }));
     }
-  }, [getAllRequests, requests, setStatusTypes]);
+  }, [getAllRequests, setStatusTypes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTableChange = (pagination, filters, sorter) => {
     let newData = [];

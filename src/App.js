@@ -61,6 +61,7 @@ function App() {
                   <AuthRoute exact path="/urun-talebini-duzenle/:id" component={PartnerProductRequestEdit} />
                   <AuthRoute exact path="/profil" component={PartnerProfileEdit} />
                   <Route exact path="/giris" component={Login} />
+                  <Route exact path="/" component={AdminOrdersIndex} />
                 </Switch>
               </Content>
             </Content>

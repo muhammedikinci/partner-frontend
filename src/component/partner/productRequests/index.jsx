@@ -12,9 +12,7 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
   const [filteredRequests, setFilteredRequests] = useState([]);
 
   useEffect(() => {
-    if (!my_requests || my_requests.length === 0) {
-      getAllMyRequests()
-    }
+    getAllMyRequests()
 
     if (my_requests) {
       let types = {}
@@ -26,7 +24,7 @@ const ProductRequestsIndex = ({ my_requests, loading, getAllMyRequests }) => {
 
       setStatusTypes(Object.values(types).map((t) => { return { text: t, value: t } }));
     }
-  }, [getAllMyRequests, my_requests, setStatusTypes]);
+  }, [getAllMyRequests]); // eslint-disable-line
 
   const handleTableChange = (pagination, filters, sorter) => {
     let newData = [];

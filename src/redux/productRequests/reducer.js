@@ -18,7 +18,7 @@ import {
 } from './constants.js';
 
 const initialState = {
-    requests: [],
+    requests: null,
     my_requests: [],
     request: {},
     loading: false,
@@ -31,7 +31,7 @@ export const productRequestsReducer = (state = initialState, action) => {
     switch (action.type) {
         case RESET_STATE:
             return {
-                requests: [],
+                requests: null,
                 my_requests: [],
                 request: {},
                 loading: false,
